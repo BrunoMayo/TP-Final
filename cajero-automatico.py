@@ -43,16 +43,14 @@ if inicio == '': #Si el usuario presiona unicamente la tecla ENTER se ejecuta el
                     #FUNCION QUE HAGA TRANSFERENCIAS
                     print("1. Consultas\n2. Retiros\n3. Transferencias\n4. Salir")
                     seleccion = int(input("\n"))
+                else:
+                    print("Seleccion no valida")
+                    seleccion = 4
             if seleccion == 4:
                 print("Finalizando proceso...")
                 sleep(1)
                 exit
-            else:
-                print("Seleccion no valida")
-                sleep(1)
-                print("Finalizando proceso...")
-                sleep(1)
-                exit
+            
 
 
     else: #Si la clave de acceso se ingresa mal 3 veces se sale del programa
