@@ -27,16 +27,23 @@ if inicio == '': #Si el usuario presiona unicamente la tecla ENTER se ejecuta el
             print("Presione el numero de operación que desea realizar y luego la tecla ENTER")
             print("1. Consultas\n2. Retiros\n3. Transferencias\n4. Salir")
             seleccion = int(input("\n"))
-            if seleccion == 1:
-                sleep(1)
-                #FUNCION QUE HAGA CONSULTAS
-            elif seleccion == 2:
-                sleep(1)
-                #FUNCION QUE HAGA RETIROS
-            elif seleccion == 3:
-                sleep(1)
-                #FUNCION QUE HAGA TRANSFERENCIAS
-            elif seleccion == 4:
+            while seleccion != 4:
+                if seleccion == 1:
+                    sleep(1)
+                    #FUNCION QUE HAGA CONSULTAS
+                    print("1. Consultas\n2. Retiros\n3. Transferencias\n4. Salir")
+                    seleccion = int(input("\n"))
+                elif seleccion == 2:
+                    sleep(1)
+                    #FUNCION QUE HAGA RETIROS
+                    print("1. Consultas\n2. Retiros\n3. Transferencias\n4. Salir")
+                    seleccion = int(input("\n"))
+                elif seleccion == 3:
+                    sleep(1)
+                    #FUNCION QUE HAGA TRANSFERENCIAS
+                    print("1. Consultas\n2. Retiros\n3. Transferencias\n4. Salir")
+                    seleccion = int(input("\n"))
+            if seleccion == 4:
                 print("Finalizando proceso...")
                 sleep(1)
                 exit
