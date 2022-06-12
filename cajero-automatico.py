@@ -1,6 +1,7 @@
 from consultas import consultas
 from retiros import retiros
 from transferencias import transferir
+import tkinter
 
 #clave = 12345
 #dni = 12345678
@@ -10,8 +11,7 @@ from transferencias import transferir
 base_datos = [12345, 12345678, 98765, 85000, 3564] #Datos provistos en el PDF con los enunciados
 
 
-inicio = input("Para comenzar precione solamente la tecla ENTER  ") #Se solicita al usuario que ingrese enter para que el cajero comienze a funcionar
-if inicio == '': #Si se presiona unicamente enter
+def menu():
     print("Ingrese su tarjeta...")
     print("Validando tarjeta...")
     clave = int(input("Ingrese la clave de su tarjeta: ")) #Se solicita la clave de la tarjeta
@@ -52,5 +52,14 @@ if inicio == '': #Si se presiona unicamente enter
                     opcion = int(input(""))
         else:
             print("El DNI ingresado es incorrecto")    
-else:
-    print("La clave ingresada no es valida")
+#else:
+    #print("La clave ingresada no es valida")
+
+ventana = tkinter.Tk()
+ventana.title("Cajero InterBanca")
+ventana.geometry("500x500")
+ventana.configure(background="blue")
+enter = tkinter.Button(ventana,text="Enter", command=menu, fg="green")
+enter.place(x=180, y=200, height= 75, width = 150)
+enter.pack(side=tkinter.RIGHT)
+ventana.mainloop()
