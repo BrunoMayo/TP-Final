@@ -52,16 +52,14 @@ def escribir_o_imprimir():
     return opcion #Se devuelve la ultima opcion ingresada
 
 
-def saldo(saldo_pesos, saldo_soles):
+def saldo(saldo_pesos, saldo_soles, moneda, opcion):
     """
     Esta funcion es la encargada de devolver el saldo en el formato que se desee
 
     Precondicion: dos numeros enteros
     Poscondicion: dos numeros enteros
     """
-    moneda = soles_o_pesos() #Se da a elegir que tipo de cambio se va a utilizar
     if moneda == 1 or moneda == 2: #Si se elige un tipo de cambio permitido
-        opcion = escribir_o_imprimir() #Se da a elegir como se desea mostrar
         if moneda == 1 and opcion == 1: #Si se eligen pesos e imptimir por pantalla
             print(f"El saldo de la cuenta es de {saldo_pesos} pesos") #Se imprime el saldo en pesos por pantalla
         elif moneda == 2 and opcion == 1: #Si se eligen soles e imprimir por pantalla 
@@ -80,16 +78,14 @@ def saldo(saldo_pesos, saldo_soles):
 
 
 
-def movimientos():
+def movimientos(moneda, opcion):
     """
     Esta funcion se encarga de generar 10 movimientos e imprimirlos en el tipo de cambio y forma que se elija
 
     Precondicion:
     Poscondicion:
     """
-    moneda = soles_o_pesos() #Se da a elegir el tipo de cambio a usar
     if moneda == 1 or moneda == 2: #si se elige un tipo de cambio valido
-        opcion = escribir_o_imprimir() #Se da a elegir como visualizar los movimientos
         if moneda == 1 and opcion == 1: #Si se eligen pesos y visualizar por pantalla
             indice = 0
             while indice < 5: #Se generan e imprimen por pantalla 5 depositos y 5 transferencias aleatorias en pesos
@@ -135,18 +131,17 @@ def movimientos():
     return None
 
 
-def consultas(saldo_pesos, saldo_soles):
+def consultas(saldo_pesos, saldo_soles, opcion_saldo_o_movimientos, moneda, opcion_escribir_o_imprimir):
     """
     Esta funcion se encarga de unir las funciones que componen a las consultas
 
     Precondicion: dos numeros enteros
     Poscondicion: dos nuemros enteros
     """
-    opcion = saldo_o_movimientos() #Se da a elegir que operacion se desea consultar, si el saldo o los ultimos movimientos
-    if opcion == 1: #Si se desea visualizar el saldo
-        saldo(saldo_pesos, saldo_soles) #se llama a la funcion encargada de eso
-    elif opcion == 2: #Si se desean visualizar los movimientos
-        movimientos() #Se llama a ala funcion encargada de eso
+    if opcion_saldo_o_movimientos == 1: #Si se desea visualizar el saldo
+        saldo(saldo_pesos, saldo_soles, moneda, opcion_escribir_o_imprimir) #se llama a la funcion encargada de eso
+    elif opcion_saldo_o_movimientos == 2: #Si se desean visualizar los movimientos
+        movimientos(moneda, opcion_escribir_o_imprimir) #Se llama a ala funcion encargada de eso
     else: #Si se elie una opcion no valida 
         print("No ha seleccionado una opcion valida. No hay mas intentos") #Se da aviso
     return(saldo_pesos, saldo_soles) #Se retornan los saldos

@@ -1,4 +1,4 @@
-from consultas import consultas
+from consultas import consultas, saldo_o_movimientos, soles_o_pesos, escribir_o_imprimir
 from retiros import retiros
 from transferencias import transferir
 
@@ -24,7 +24,13 @@ if inicio == '': #Si se presiona unicamente enter
             monto_a_devolver_soles = 0 #Aca se almacena el dinero a devolver en caso de que la cuenta a la que se quiere transferir sea erronea
             while opcion != 4: #Mientras no se elija la opcion salir
                 if opcion == 1: #Si se elije la opcion 1
-                    consultas(base_datos[3], base_datos[4]) #Se llama a la funcion que permite hacer consultas
+                    try:
+                        moneda = soles_o_pesos() #Se da a elegir la moneda a utilizar
+                        opcion_escribir_o_imprimir = escribir_o_imprimir() #Se da a elegir si se desea imprimir la consulta por pantalla o si se prefiere imrpimir un ticket
+                        opcion_saldo_o_movimientos = saldo_o_movimientos() #Se da a elegir que operacion se desea consultar, si el saldo o los ultimos movimientos
+                        consultas(base_datos[3], base_datos[4], opcion_saldo_o_movimientos, moneda, opcion_escribir_o_imprimir) #Se llama a la funcion que permite hacer consultas
+                    except ValueError as exc: #En caso de que se ingrese un valor con un tipo de dato no permitido
+                        print("Debe completar con datos validos.") #Se da aviso
                     print("Presione:\n1.Para consultas\n2.Para retiros\n3.Para transferencias\n4.Para salir\n5.Pasar 3 dias\n") #Se vuelve a dar a elegir una operacion
                     opcion = int(input(""))
                 elif opcion == 2: #Si se elige la operacion 2
