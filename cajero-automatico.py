@@ -1,6 +1,7 @@
+from email.mime import base
 from consultas import consultas, saldo_o_movimientos, soles_o_pesos, escribir_o_imprimir
-from retiros import retiros
-from transferencias import transferir
+from retiros import cuenta_a_debitar, retiros
+from transferencias import transferir, monto_a_operar
 
 #clave = 12345
 #dni = 12345678
@@ -34,18 +35,31 @@ if inicio == '': #Si se presiona unicamente enter
                     print("Presione:\n1.Para consultas\n2.Para retiros\n3.Para transferencias\n4.Para salir\n5.Pasar 3 dias\n") #Se vuelve a dar a elegir una operacion
                     opcion = int(input(""))
                 elif opcion == 2: #Si se elige la operacion 2
-                    saldos_retiros = retiros(base_datos[3], base_datos[4]) #Se llama a la funcion que hace los retiros de dinero
-                    base_datos[3] = saldos_retiros[0] #Se acutaliza el monto en pesos despues del retiro
-                    base_datos[4] = saldos_retiros[1] #Se actualiza el monto en soles despues del retiro
+                    try:
+                        cuenta_donde_debitar = cuenta_a_debitar() #Se da a elegir la cuenta de la que se debitara
+                        moneda = soles_o_pesos() #Se da a elegir la moneda a utilizar
+                        monto = monto_a_operar(base_datos[3], base_datos[4], moneda) #se solicita el monto a realizar
+                        imprimir = input("Presione 1 y luego ENTER si desea imprimir voucher comprobante de retiro: ") #Se da la opcion de imprimir un voucher con el returo
+                        saldos_retiros = retiros(base_datos[3], base_datos[4], moneda, cuenta_donde_debitar, monto, imprimir) #Se llama a la funcion que hace los retiros de dinero
+                        base_datos[3] = saldos_retiros[0] #Se acutaliza el monto en pesos despues del retiro
+                        base_datos[4] = saldos_retiros[1] #Se actualiza el monto en soles despues del retiro
+                    except ValueError as exc: #En caso de que se ingrese un valor con un tipo de dato no permitido
+                        print("Debe completar con datos validos.") #Se da aviso
                     print("Presione:\n1.Para consultas\n2.Para retiros\n3.Para transferencias\n4.Para salir\n5.Pasar 3 dias\n") #Se vuelve a dar a elegir una operacion
                     opcion = int(input(""))
                 elif opcion == 3: #Si se elige la operacion 3
-                    saldos_transferencia = transferir(base_datos[2], base_datos[3], base_datos[4]) #Se llama a la funcion que realiza las transferencias
-                    base_datos[3] = saldos_transferencia[0] #Se actualiza el monto en pesos despues de transferir
-                    base_datos[4] = saldos_transferencia[1] #Se actualiza el monto en soles despues de transferir
-                    if not saldos_transferencia[2]: #Si la cuenta a la que se quiso transferir no existe
-                        monto_a_devolver_pesos = monto_a_devolver_pesos + saldos_transferencia[3] #Se almacena el monto que se debera devolver despues de 3 dias
-                        monto_a_devolver_soles = monto_a_devolver_soles + saldos_transferencia[4] #Se almacena el monto que se debera devolver despues de 3 dias
+                    try:
+                        moneda = soles_o_pesos() #Se da aelegir la moneda a utilizar
+                        monto = monto_a_operar(base_datos[3], base_datos[4], moneda) #se solicita el monto a realizar
+                        cuenta = int(input("Ingrese el numero de cuenta al que le desea transferir: ")) #Se solicita el numero de cuenta a transferir
+                        saldos_transferencia = transferir(base_datos[2], base_datos[3], base_datos[4], moneda, monto, cuenta) #Se llama a la funcion que realiza las transferencias
+                        base_datos[3] = saldos_transferencia[0] #Se actualiza el monto en pesos despues de transferir
+                        base_datos[4] = saldos_transferencia[1] #Se actualiza el monto en soles despues de transferir
+                        if not saldos_transferencia[2]: #Si la cuenta a la que se quiso transferir no existe
+                            monto_a_devolver_pesos = monto_a_devolver_pesos + saldos_transferencia[3] #Se almacena el monto que se debera devolver despues de 3 dias
+                            monto_a_devolver_soles = monto_a_devolver_soles + saldos_transferencia[4] #Se almacena el monto que se debera devolver despues de 3 dias
+                    except ValueError as exc: #En caso de que se ingrese un valor con un tipo de dato no permitido
+                        print("Debe completar con datos validos.") #Se da aviso
                     print("Presione:\n1.Para consultas\n2.Para retiros\n3.Para transferencias\n4.Para salir\n5.Pasar 3 dias\n") #Se vuelve a dar a elegir una operacion
                     opcion = int(input(""))
                 elif opcion == 5: #Si se elige la opcion 5, se simula el paso de 3 dias
@@ -58,5 +72,5 @@ if inicio == '': #Si se presiona unicamente enter
                     opcion = int(input(""))
         else:
             print("El DNI ingresado es incorrecto")    
-else:
-    print("La clave ingresada no es valida")
+    else:
+        print("La clave ingresada no es valida")
