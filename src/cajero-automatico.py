@@ -10,13 +10,26 @@ from transferencias import transferir, monto_a_operar
 base_datos = [12345, 12345678, 98765, 85000, 3564] #Datos provistos en el PDF con los enunciados
 
 
-inicio = input("Para comenzar precione solamente la tecla ENTER  ") #Se solicita al usuario que ingrese enter para que el cajero comienze a funcionar
+inicio = input("Para comenzar precione solamente la tecla ENTER ") #Se solicita al usuario que ingrese enter para que el cajero comienze a funcionar
 if inicio == '': #Si se presiona unicamente enter
     try:
         print("Ingrese su tarjeta...")
         print("Validando tarjeta...")
         clave = int(input("Ingrese la clave de su tarjeta: ")) #Se solicita la clave de la tarjeta
-        if clave == base_datos[0]: #Si la clave es correcta
+        intentos = 0 
+        numero = 3
+        while clave != base_datos[0]: #Si la clave es incorrecta
+            while intentos < 3: #verifica que el numero de intentos no haya superado los 3 intentos
+                print("La clave ingresada no es valida") 
+                print(f"Tiene {numero} intentos restantes") #Indica el numero de intentos restantes
+                clave = int(input("Ingrese nuevamente la clave de su tarjeta: ")) #Pide ingresar nuevamente la clave 
+                intentos += 1 #Suma 1 para indicar que ya se realizo un intento
+                numero -= 1 #Resta 1 para indicar cuantos intentos quedan
+            break #Interrumpe el ciclo white
+        if intentos == 3: # Si el numero de intentos es igual a 3 
+            print("Usted a superado el numero de intentos permitidos")
+            print("El cajero retendra su tarjeta")
+        else: #Si la clave es correcta
             dni = int(input("Ingrese su DNI: ")) #Se solicita el DNI
             if dni == base_datos[1]: #Si el DNI es correcto
                 print("Presione:\n1.Para consultas\n2.Para retiros\n3.Para transferencias\n4.Para salir\n5.Pasar 3 dias\n") #Se da a elegir la operaciona realizar
@@ -72,7 +85,6 @@ if inicio == '': #Si se presiona unicamente enter
                         opcion = int(input(""))
             else:
                 print("El DNI ingresado es incorrecto")    
-        else:
-            print("La clave ingresada no es valida")
+    
     except ValueError as exc:
         print("Debe completar con datos validos.") #Se da aviso de que los valores ingresados no son del tipo correcto
