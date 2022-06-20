@@ -1,6 +1,7 @@
 # **TP-Final** 
 ### **Alumnos**: *Bruno Mayo y Maximiliano Vargas*
 ### Comision 1
+### Usuarios github: @BrunoMayo y @vsmaxy
 #
 #
 ## Codigo en python :snake:
